@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Researcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-buttons {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+        }
+
+        .btn-save {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #45a049;
+        }
+
+        .btn-cancel {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Researcher</h1>
+    <div class="form-container">
+        <form id="edit-researcher-form">
+            <div class="form-group">
+                <label for="chnom">Name</label>
+                <input type="text" id="chnom" name="chnom" required>
+            </div>
+            <div class="form-group">
+                <label for="grade">Grade</label>
+                <input type="text" id="grade" name="grade" required>
+            </div>
+            <div class="form-group">
+                <label for="statut">Status</label>
+                <input type="text" id="statut" name="statut" required>
+            </div>
+            <div class="form-group">
+                <label for="daterecrut">Recruitment Date</label>
+                <input type="date" id="daterecrut" name="daterecrut" required>
+            </div>
+            <div class="form-group">
+                <label for="salaire">Salary</label>
+                <input type="number" id="salaire" name="salaire" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="prime">Prime</label>
+                <input type="number" id="prime" name="prime" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-save">Save</button>
+                <button type="button" class="btn btn-cancel" onclick="window.history.back()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Fetch the researcher ID from the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const chno = urlParams.get('chno');
+
+        // Populate the form with existing researcher data
+        async function fetchResearcherDetails() {
+            try {
+                const response = await fetch(`/api/researcher/${chno}`);
+                const researcher = await response.json();
+
+                if (researcher) {
+                    document.getElementById('chnom').value = researcher.chnom;
+                    document.getElementById('grade').value = researcher.grade;
+                    document.getElementById('statut').value = researcher.statut;
+                    document.getElementById('daterecrut').value = researcher.daterecrut.split('T')[0];
+                    document.getElementById('salaire').value = researcher.salaire;
+                    document.getElementById('prime').value = researcher.prime;
+                    document.getElementById('email').value = researcher.email;
+                } else {
+                    alert('Researcher not found.');
+                    window.history.back();
+                }
+            } catch (error) {
+                console.error('Error fetching researcher details:', error);
+                alert('Failed to load researcher details.');
+                window.history.back();
+            }
+        }
+
+        // Update the researcher data on form submission
+        document.getElementById('edit-researcher-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const updatedData = {
+                chnom: document.getElementById('chnom').value,
+                grade: document.getElementById('grade').value,
+                statut: document.getElementById('statut').value,
+                daterecrut: document.getElementById('daterecrut').value,
+                salaire: document.getElementById('salaire').value,
+                prime: document.getElementById('prime').value,
+                email: document.getElementById('email').value,
+            };
+
+            try {
+                const response = await fetch(`/api/researcher/${chno}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData),
+                });
+                const result = await response.json();
+
+                if (result.message) {
+                    alert(result.message);
+                    window.location.href = '/'; // Redirect to the main page
+                } else {
+                    alert(result.error || 'Failed to update researcher.');
+                }
+            } catch (error) {
+                console.error('Error updating researcher:', error);
+                alert('Failed to update researcher.');
+            }
+        });
+
+        // Load the researcher details when the page loads
+        document.addEventListener('DOMContentLoaded', fetchResearcherDetails);
+    </script>
+</body>
+</html>

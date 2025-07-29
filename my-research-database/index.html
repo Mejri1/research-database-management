@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Researcher Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        #add-researcher {
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+    
+        #add-researcher h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    
+        .form-group {
+            margin-bottom: 15px;
+        }
+    
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+    
+        .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+    
+        .form-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+    
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    
+        #response-message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<!-- All Researchers Section -->
+<!-- All Researchers Section -->
+<!-- All Researchers Section -->
+<section id="all-chercheurs">
+    <h1>All Researchers</h1>
+    <div class="table-container">
+        <table class="chercheurs-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                    <th>Recruitment Date</th>
+                    <th>Salary</th>
+                    <th>Prime</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="chercheurs-table-body">
+                <!-- Dynamic rows will be added here -->
+                <tr>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td>Professor</td>
+                    <td>Active</td>
+                    <td>2020-01-15</td>
+                    <td>$70,000</td>
+                    <td>$5,000</td>
+                    <td>johndoe@example.com</td>
+                </tr>
+                <!-- More rows dynamically generated -->
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<style>
+    .table-container {
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+    }
+
+    .chercheurs-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .chercheurs-table th, .chercheurs-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .chercheurs-table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+        display: inline-block;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .edit-btn {
+        background-color: #4CAF50; /* Green for edit */
+    }
+
+    .edit-btn:hover {
+        background-color: #45a049;
+    }
+
+    .delete-btn {
+        background-color: #f44336; /* Red for delete */
+    }
+
+    .delete-btn:hover {
+        background-color: #d32f2f;
+    }
+</style>
+
+<section id="search-researcher">
+    <style>#search-researcher {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    #search-researcher h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    
+    .search-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    #search-input {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 300px;
+    }
+    
+    .action-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .search-btn {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    .search-btn:hover {
+        background-color: #2980b9;
+    }
+    
+    .results-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+    
+    .result-card {
+        padding: 15px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin: 10px auto;
+        max-width: 600px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .result-card h3 {
+        margin: 0;
+        color: #333;
+    }
+    
+    .result-card p {
+        margin: 5px 0;
+        color: #666;
+    }
+    
+    .action-buttons {
+        margin-top: 10px;
+    }
+    
+    .edit-btn {
+        background-color: #28a745;
+        color: white;
+        margin-right: 10px;
+    }
+    
+    .edit-btn:hover {
+        background-color: #218838;
+    }
+    
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+    </style>
+    <h1>Search Researcher</h1>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search by ID, Name, or Email">
+        <button id="search-btn" class="action-btn search-btn">Search</button>
+    </div>
+    <div id="search-results" class="results-container">
+        <!-- The researcher details will appear here -->
+    </div>
+</section>
+<script>const express = require('express');
+    const { searchResearcher, deleteResearcher } = require('./db');
+    const app = express();
+    
+    app.use(express.json());
+    
+    // Search researcher route
+    app.get('/search-researcher', (req, res) => {
+        const { query } = req.query;
+    
+        if (!query) {
+            return res.status(400).json({ message: 'Search query is required!' });
+        }
+    
+        searchResearcher(query)
+            .then((result) => {
+                if (result.rows.length === 0) {
+                    return res.json({ message: 'No researcher found!' });
+                }
+                res.json(result.rows);
+            })
+            .catch((err) => {
+                res.status(500).json({ message: 'Error searching researcher: ' + err.message });
+            });
+    });
+    
+    // Delete researcher route
+    app.delete('/delete-researcher/:id', (req, res) => {
+        const { id } = req.params;
+    
+        deleteResearcher(id)
+            .then(() => {
+                res.json({ message: 'Researcher deleted successfully!' });
+            })
+            .catch((err) => {
+                res.status(500).json({ message: 'Error deleting researcher: ' + err.message });
+            });
+    });
+    
+    // Start the server
+    app.listen(5050, () => {
+        console.log('Server running on port 5050');
+    });
+    </script>
+
+
+
+
+    <!-- Researcher Articles Section -->
+    <section id="researcher-articles">
+        <h2>Researcher Articles</h2>
+        <div class="form-group">
+            <label for="researcher-id">Researcher ID:</label>
+            <input type="text" id="researcher-id" placeholder="Enter Researcher ID" required>
+            <button id="fetch-articles-button">Fetch Articles</button>
+        </div>
+        <table class="articles-table">
+            <thead>
+                <tr>
+                    <th>Publication No</th>
+                    <th>Title</th>
+                    <th>Theme</th>
+                    <th>Type</th>
+                    <th>Volume</th>
+                    <th>Date</th>
+                    <th>Apparition</th>
+                    <th>Editor</th>
+                </tr>
+            </thead>
+            <tbody id="articles-table-body">
+                <!-- Data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        // Fetch and populate the researchers table
+        async function fetchChercheurs() {
+            try {
+                const response = await fetch('/api/chercheurs');
+                if (!response.ok) throw new Error('Failed to fetch chercheurs');
+
+                const chercheurs = await response.json();
+                const tableBody = document.getElementById('chercheurs-table-body');
+                tableBody.innerHTML = ''; // Clear any existing rows
+
+                chercheurs.forEach(chercheur => {
+                    const row = `
+                        <tr>
+                            <td>${chercheur.chno}</td>
+                            <td>${chercheur.chnom}</td>
+                            <td>${chercheur.grade}</td>
+                            <td>${chercheur.statut}</td>
+                            <td>${chercheur.daterecrut}</td>
+                            <td>${chercheur.salaire}</td>
+                            <td>${chercheur.prime}</td>
+                            <td>${chercheur.email}</td>
+                        </tr>
+                    `;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            } catch (error) {
+                console.error('Error fetching chercheurs:', error);
+            }
+        }
+
+        // Fetch and populate articles based on researcher ID
+        async function fetchArticles() {
+            const researcherId = document.getElementById('researcher-id').value;
+            const tableBody = document.getElementById('articles-table-body');
+
+            tableBody.innerHTML = ''; // Clear any existing rows
+
+            if (!researcherId) {
+                alert('Please enter a Researcher ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/researcher/articles?researcherId=${encodeURIComponent(researcherId)}`);
+                if (!response.ok) throw new Error('Failed to fetch articles');
+
+                const articles = await response.json();
+
+                if (articles.length > 0) {
+                    articles.forEach(article => {
+                        const row = `
+                            <tr>
+                                <td>${article.pubno}</td>
+                                <td>${article.titre}</td>
+                                <td>${article.theme}</td>
+                                <td>${article.type}</td>
+                                <td>${article.volume}</td>
+                                <td>${article.date}</td>
+                                <td>${article.apparition}</td>
+                                <td>${article.editeur}</td>
+                            </tr>
+                        `;
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="8">No articles found for this researcher.</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+            }
+        }
+
+        // Fetch researchers on page load
+        fetchChercheurs();
+
+        // Add event listener for fetching articles
+        document.getElementById('fetch-articles-button').addEventListener('click', fetchArticles);
+    </script>
+    <section id="researcher-bibliography">
+        <h2>Researcher Bibliography</h2>
+        <div class="form-group">
+            <label for="bibliography-researcher-id">Researcher ID:</label>
+            <input type="text" id="bibliography-researcher-id" placeholder="Enter Researcher ID" required>
+            <button id="fetch-bibliography-button">Fetch Bibliography</button>
+        </div>
+        <table class="bibliography-table">
+            <thead>
+                <tr>
+                    <th>Publication Title</th>
+                    <th>Theme</th>
+                    <th>Type</th>
+                    <th>Volume</th>
+                    <th>Date</th>
+                    <th>Apparition</th>
+                    <th>Editor</th>
+                </tr>
+            </thead>
+            <tbody id="bibliography-table-body">
+                <!-- Data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </section>
+    
+    <script>
+        async function fetchBibliography() {
+            const researcherId = document.getElementById('bibliography-researcher-id').value;
+            const tableBody = document.getElementById('bibliography-table-body');
+    
+            tableBody.innerHTML = ''; // Clear any existing rows
+    
+            if (!researcherId) {
+                alert('Please enter a Researcher ID');
+                return;
+            }
+    
+            try {
+                const response = await fetch(`/api/bibliography/${encodeURIComponent(researcherId)}`);
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        tableBody.innerHTML = '<tr><td colspan="7">No publications found for this researcher.</td></tr>';
+                    } else {
+                        throw new Error('Failed to fetch bibliography');
+                    }
+                    return;
+                }
+    
+                const data = await response.json();
+                const bibliography = data.bibliography;
+    
+                if (bibliography.length > 0) {
+                    bibliography.forEach(item => {
+                        const row = `
+                            <tr>
+                                <td>${item.publication_title}</td>
+                                <td>${item.theme}</td>
+                                <td>${item.type}</td>
+                                <td>${item.volume}</td>
+                                <td>${item.date}</td>
+                                <td>${item.apparition}</td>
+                                <td>${item.editeur}</td>
+                            </tr>
+                        `;
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="7">No publications found for this researcher.</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error fetching bibliography:', error);
+                tableBody.innerHTML = '<tr><td colspan="7">Error fetching bibliography.</td></tr>';
+            }
+        }
+    
+        document.getElementById('fetch-bibliography-button').addEventListener('click', fetchBibliography);
+    </script>
+    <section id="lab-hierarchy">
+        <h2>Researcher Hierarchy in Lab</h2>
+        <div class="form-group">
+            <label for="lab-id">Lab Number:</label>
+            <input type="text" id="lab-id" placeholder="Enter Lab Number" required>
+            <button id="fetch-hierarchy-button">Fetch Hierarchy</button>
+        </div>
+        <table class="hierarchy-table">
+            <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Researcher ID</th>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                    <th>Supervisor ID</th>
+                </tr>
+            </thead>
+            <tbody id="hierarchy-table-body">
+                <!-- Hierarchy data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </section>
+    
+    <script>
+        async function fetchHierarchy() {
+            const labId = document.getElementById('lab-id').value;
+            const tableBody = document.getElementById('hierarchy-table-body');
+    
+            tableBody.innerHTML = ''; // Clear any existing rows
+    
+            if (!labId) {
+                alert('Please enter a Lab Number');
+                return;
+            }
+    
+            try {
+                const response = await fetch(`/api/lab/${encodeURIComponent(labId)}/hierarchy`);
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        tableBody.innerHTML = '<tr><td colspan="6">No researchers found in this lab.</td></tr>';
+                    } else {
+                        throw new Error('Failed to fetch hierarchy');
+                    }
+                    return;
+                }
+    
+                const data = await response.json();
+                const hierarchy = data.hierarchy;
+    
+                if (hierarchy.length > 0) {
+                    hierarchy.forEach(item => {
+                        const row = `
+                            <tr>
+                                <td>${item.level}</td>
+                                <td>${item.chno}</td>
+                                <td>${item.chnom}</td>
+                                <td>${item.grade}</td>
+                                <td>${item.statut}</td>
+                                <td>${item.supno ? item.supno : 'None'}</td>
+                            </tr>
+                        `;
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="6">No researchers found in this lab.</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error fetching hierarchy:', error);
+                tableBody.innerHTML = '<tr><td colspan="6">Error fetching hierarchy.</td></tr>';
+            }
+        }
+    
+        document.getElementById('fetch-hierarchy-button').addEventListener('click', fetchHierarchy);
+    </script>
+    <section id="add-researcher">
+        <h2>Add Researcher</h2>
+        <form id="add-researcher-form">
+            <div class="form-group">
+                <label for="chnom">Name:</label>
+                <input type="text" id="chnom" name="chnom" required>
+            </div>
+            <div class="form-group">
+                <label for="grade">Grade:</label>
+                <input type="text" id="grade" name="grade" required>
+            </div>
+            <div class="form-group">
+                <label for="statut">Status:</label>
+                <input type="text" id="statut" name="statut" required>
+            </div>
+            <div class="form-group">
+                <label for="daterecrut">Recruitment Date:</label>
+                <input type="date" id="daterecrut" name="daterecrut" required>
+            </div>
+            <div class="form-group">
+                <label for="salaire">Salary:</label>
+                <input type="number" id="salaire" name="salaire" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="prime">Prime:</label>
+                <input type="number" id="prime" name="prime" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="supno">Supervisor ID (Optional):</label>
+                <input type="number" id="supno" name="supno">
+            </div>
+            <div class="form-group">
+                <label for="labno">Lab Number:</label>
+                <input type="number" id="labno" name="labno" required>
+            </div>
+            <div class="form-group">
+                <label for="facno">Faculty Number:</label>
+                <input type="number" id="facno" name="facno" required>
+            </div>
+            <button type="submit">Add Researcher</button>
+        </form>
+        <div id="response-message"></div>
+    </section>
+    
+    <script>
+        document.getElementById('add-researcher-form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent form from refreshing the page
+    
+            // Get form data
+            const formData = new FormData(event.target);
+            const researcherData = Object.fromEntries(formData);
+    
+            try {
+                const response = await fetch('/add-researcher', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(researcherData),
+                });
+    
+                const result = await response.json();
+                document.getElementById('response-message').textContent = result.message;
+            } catch (error) {
+                document.getElementById('response-message').textContent = 'An error occurred: ' + error.message;
+            }
+        });
+    </script>
+    <script src="server.js"></script>      
+</body>
+</html>
