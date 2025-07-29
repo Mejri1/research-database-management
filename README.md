@@ -188,10 +188,6 @@ The system includes comprehensive database triggers for data integrity:
 - Include comments for complex database operations
 - Test thoroughly before submitting changes
 
-## License
-
-This project is licensed under the ISC License - see the LICENSE file for details.
-
 ## Support
 
 For questions or issues, please:
